@@ -1,4 +1,7 @@
 #!/bin/bash
+minikube stop
+
+minikube start --driver docker
 
 # Call the build-images.sh script
 ./build-images.sh
