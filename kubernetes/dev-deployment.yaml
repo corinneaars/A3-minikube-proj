@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fastapi-deployment
+  namespace: minikube-soft-intro
 spec:
   replicas: 1
   selector:
@@ -14,7 +15,7 @@ spec:
     spec:
       containers:
       - name: fastapi
-        image: fastapi-image
+        image: corinneaars/fastapi-image
         ports:
         - containerPort: 8000
 
@@ -23,6 +24,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nextjs-deployment
+  namespace: minikube-soft-intro
 spec:
   replicas: 1
   selector:
@@ -35,29 +37,17 @@ spec:
     spec:
       containers:
       - name: nextjs
-        image: nextjs-image
+        image: corinneaars/nextjs-image
         ports:
         - containerPort: 3000
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mysql-service
-spec:
-  selector:
-    app: mysql
-  ports:
-    - protocol: TCP
-      port: 3306
-      targetPort: 3306
-  type: ClusterIP
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql-deployment
+  namespace: minikube-soft-intro
 spec:
   replicas: 1
   selector:
@@ -70,9 +60,60 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: mysql-image
+        image: corinneaars/mysql-image
         ports:
         - containerPort: 3306
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: supersecretpassw0rd
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fastapi-ingress
+spec:
+  rules:
+  - host: "fastapi.example.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: fastapi-service
+            port:
+              number: 8000
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nextjs-ingress
+spec:
+  rules:
+  - host: "nextjs.example.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: nextjs-service
+            port:
+              number: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  type: NodePort
+  ports:
+    - port: 3306
+      targetPort: 3306
+      nodePort: 30036
+  selector:
+    app: mysql
+
