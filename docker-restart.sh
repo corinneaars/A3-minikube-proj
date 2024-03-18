@@ -10,7 +10,7 @@ while pgrep -q "Docker*"; do
 done
 if [[ -S /var/run/docker.sock ]]; then
     echo "Removing docker.sock..."
-    rm /var/run/docker.sock
+    sudo rm /var/run/docker.sock
 fi
 
 echo "All Docker processes have quit"

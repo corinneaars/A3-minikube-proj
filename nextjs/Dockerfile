@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a parent image
-FROM node:21.7.1-alpine
+FROM node:21-alpine3.18
 
 
 # Add the current directory contents into the container at /app
@@ -16,5 +16,5 @@ RUN npm run build
 EXPOSE 3000
 
 # Run the application when the container launches
-CMD ["npm", "start"]
-
+# CMD ["npm", "run"]
+CMD ["npm", "run", "dev"]
