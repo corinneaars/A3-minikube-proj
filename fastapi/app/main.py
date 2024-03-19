@@ -27,4 +27,5 @@ def get_data(q: Union[str, None] = None):
     
     # cursor.close()
     # connection.close()
+    
     return "Done"
