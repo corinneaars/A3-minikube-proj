@@ -1,3 +1,12 @@
 /.DS_Store
-/nextjs/node_modules
 /docker-compose.yaml
+/nextjs/.next
+/nextjs/node_modules
+/nextjs/.env
+/fastapi/.env
+/fastapi/.venv
+/fastapi/venv
+/fastapi/__pycache__
+/fastapi/.pytest_cache
+
+

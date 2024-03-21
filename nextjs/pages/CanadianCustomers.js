@@ -23,12 +23,11 @@ const CanadianCustomers = ({ canadianCustomers }) => {
         {
             Header: 'City',
             accessor: 'city',
+        },
+        {
+            Header: 'Country',
+            accessor: 'country',
         }
-        // },
-        // {
-        //     Header: 'Country',
-        //     accessor: 'country',
-        // }
     ], []);
 
     const {
@@ -80,7 +79,7 @@ const CanadianCustomers = ({ canadianCustomers }) => {
 };
 
 export async function getServerSideProps() {
-    const response = await fetch('http://fastapi:8000/getCanadianCustomers');
+    const response = await fetch('http://fastapi-service:8000/getCanadianCustomers');
     const canadianCustomers = await response.json();
 
     return { props: { canadianCustomers } };
